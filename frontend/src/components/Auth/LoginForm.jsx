@@ -1,39 +1,37 @@
-import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import authService from "../../services/authService";
 
-const LoginForm = ({ onSubmit }) => {
+const LoginForm = () => {
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        onSubmit({ email, password });
+        try {
+            const response = await authService.login({ email, password });
+            localStorage.setItem("token", response.token); // Guardar token
+            navigate("/dashboard"); // Redirigir al Dashboard
+        } catch (error) {
+            console.error("Error al iniciar sesión", error);
+        }
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-4">
-            <h2 className="text-xl font-bold text-center text-white">Iniciar Sesión</h2>
+        <form onSubmit={handleSubmit}>
             <input
                 type="email"
-                placeholder="Correo electrónico"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-2 rounded bg-gray-700 text-white placeholder-gray-400"
-                required
+                placeholder="Correo electrónico"
             />
             <input
                 type="password"
-                placeholder="Contraseña"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full p-2 rounded bg-gray-700 text-white placeholder-gray-400"
-                required
+                placeholder="Contraseña"
             />
-            <button
-                type="submit"
-                className="w-full bg-gradient-to-r from-indigo-500 to-indigo-600 text-white p-2 rounded-lg shadow-md hover:from-indigo-600 hover:to-indigo-700 transition-all"
-            >
-                Iniciar sesión
-            </button>
+            <button type="submit">Iniciar sesión</button>
         </form>
     );
 };

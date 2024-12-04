@@ -1,8 +1,24 @@
-import React from "react";
-import Auth from "./components/Auth/Auth"; // Ajusta la ruta si es diferente
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Dashboard from "./pages/Dashboard";
+import LoginForm from "./components/LoginForm";
+import PrivateRoute from "./components/PrivateRoute";
 
-const App = () => {
-    return <Auth />;
-};
+function App() {
+    return (
+        <Router>
+            <Routes>
+                <Route path="/login" element={<LoginForm />} />
+                <Route
+                    path="/dashboard"
+                    element={
+                        <PrivateRoute>
+                            <Dashboard />
+                        </PrivateRoute>
+                    }
+                />
+            </Routes>
+        </Router>
+    );
+}
 
 export default App;
