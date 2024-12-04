@@ -1,26 +1,31 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const cors = require("cors");
-const { errorHandler } = require("./middleware/errorMiddleware");
-const connectDB = require("./config/db");
+const express = require('express');
+const dotenv = require('dotenv').config();
+const connectDB = require('./config/db');
+const cors = require('cors');
+const authRoutes = require('./routes/authRoutes');
+const postRoutes = require('./routes/postRoutes');
+const { errorHandler } = require('./middleware/errorMiddleware');
 
-dotenv.config();
+// Conexión a la base de datos
 connectDB();
 
 const app = express();
+
+// Habilitar CORS
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+
+// Middlewares para parseo de datos
 app.use(express.json());
-app.use(cors());
+app.use(express.urlencoded({ extended: false }));
 
 // Rutas
-const userRoutes = require("./routes/userRoutes");
-const postRoutes = require("./routes/postRoutes");
-
-app.use("/api/users", userRoutes);
-app.use("/api/posts", postRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/posts', postRoutes);
 
 // Middleware de manejo de errores
 app.use(errorHandler);
 
-// Iniciar el servidor
+// Configuración del puerto
 const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => console.log(`Servidor corriendo en el puerto ${PORT}`));
