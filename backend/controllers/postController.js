@@ -1,5 +1,33 @@
 const Post = require("../models/Post");
 
+// Crear un post
+exports.createPost = async (req, res) => {
+    const { title, content } = req.body;
+    try {
+        if (!title || !content) {
+            return res.status(400).json({ message: "Título y contenido son obligatorios" });
+        }
+        const post = await Post.create({
+            title,
+            content,
+            user: req.user.id, // Asociar el post al usuario autenticado
+        });
+        res.status(201).json(post);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Obtener todos los posts
+exports.getPosts = async (req, res) => {
+    try {
+        const posts = await Post.find().populate("user", "name email").populate("comments.user", "name");
+        res.status(200).json(posts);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 // Añadir una reacción a un post
 exports.addReaction = async (req, res) => {
     const { postId, emoji } = req.body;
@@ -36,6 +64,8 @@ exports.addComment = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+// Agregar o quitar like
 exports.toggleLike = async (req, res) => {
     const { postId } = req.body;
     try {
