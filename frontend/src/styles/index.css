@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden; /* Evita recortes */
+    background-color: #1e1e2f; /* Fondo principal */
+    font-family: 'Inter', sans-serif;
+}
+
+button {
+    outline: none;
+    cursor: pointer;
+}
+@keyframes slowZoom {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.auth-background img {
+    animation: slowZoom 10s ease-in-out infinite;
+}
