@@ -21,6 +21,6 @@ router.post("/login", loginUser);
 router.get("/:id", getUserProfile);
 router.post("/follow/:id", protect, followUser);
 router.post("/unfollow/:id", protect, unfollowUser);
-router.get("/:id/stats", protect, getUserStats); // Obtener estadísticas de usuario
+
 
 module.exports = router;

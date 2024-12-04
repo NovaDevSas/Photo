@@ -1,37 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 
-const RegisterForm = () => {
+const RegisterForm = ({ onSubmit }) => {
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        onSubmit({ name, email, password });
+    };
+
     return (
-        <form className="space-y-4">
-            <div>
-                <label className="block text-sm font-medium text-gray-300">Nombre de usuario</label>
-                <input
-                    type="text"
-                    className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
-                    placeholder="Ingresa tu nombre de usuario"
-                />
-            </div>
-            <div>
-                <label className="block text-sm font-medium text-gray-300">Email</label>
-                <input
-                    type="email"
-                    className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
-                    placeholder="Ingresa tu email"
-                />
-            </div>
-            <div>
-                <label className="block text-sm font-medium text-gray-300">Contraseña</label>
-                <input
-                    type="password"
-                    className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
-                    placeholder="Crea una contraseña"
-                />
-            </div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+            <h2 className="text-xl font-bold text-center text-white">Crear Cuenta</h2>
+            <input
+                type="text"
+                placeholder="Nombre completo"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full p-2 rounded bg-gray-700 text-white placeholder-gray-400"
+                required
+            />
+            <input
+                type="email"
+                placeholder="Correo electrónico"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full p-2 rounded bg-gray-700 text-white placeholder-gray-400"
+                required
+            />
+            <input
+                type="password"
+                placeholder="Contraseña"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full p-2 rounded bg-gray-700 text-white placeholder-gray-400"
+                required
+            />
             <button
                 type="submit"
-                className="w-full py-2 bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-lg transition-all duration-300"
+                className="w-full bg-gradient-to-r from-indigo-500 to-indigo-600 text-white p-2 rounded-lg shadow-md hover:from-indigo-600 hover:to-indigo-700 transition-all"
             >
-                Crear cuenta
+                Registrarse
             </button>
         </form>
     );
